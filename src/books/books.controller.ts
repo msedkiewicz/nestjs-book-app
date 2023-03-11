@@ -1,6 +1,14 @@
-import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  NotFoundException,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { BooksService } from './books.service';
 import { ParseUUIDPipe } from '@nestjs/common/pipes';
+import { CreateBookDTO } from './dtos/create-book.dto';
 
 @Controller('books')
 export class BooksController {
@@ -17,13 +25,12 @@ export class BooksController {
     if (!book) throw new NotFoundException('Book not found');
     return book;
   }
+
+  @Post('/')
+  public create(@Body() bookData: CreateBookDTO) {
+    return this.booksService.create(bookData);
+  }
 }
-
-// GET /api/books
-// Ten endpoint powinien po prostu zwracać dane o książkach, ale koniecznie wzbogacone o informacje o powiązanym autorze.
-
-// GET /api/books/:id
-// Ten endpoint powinien zwracać konkretną książkę, ale koniecznie wzbogaconą o informacje o powiązanym autorze. W razie podania id do nieistniejącej książki, należy zwrócić błąd 404 Not Found.
 
 // DELETE /api/books/:id
 // W tym endpoincie należy po prostu usuwać podaną książkę. W razie podania id do nieistniejącej książki, należy zwrócić błąd 404 Not Found.
