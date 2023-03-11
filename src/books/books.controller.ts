@@ -57,6 +57,13 @@ export class BooksController {
     await this.booksService.delete(id);
     return { success: true };
   }
+
+  @Post('/like/')
+  @UseGuards(JwtAuthGuard)
+  async like(
+    @Param('bookId', new ParseUUIDPipe()) bookId: string,
+    @Param('userId', new ParseUUIDPipe()) userId: string,
+  ) {}
 }
 
 // GET /api/books
