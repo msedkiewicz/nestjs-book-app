@@ -1,6 +1,14 @@
-import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  NotFoundException,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { ParseUUIDPipe } from '@nestjs/common/pipes';
+import { CreateAuthorDTO } from './dtos/create-author.dto';
 
 @Controller('authors')
 export class AuthorsController {
@@ -16,5 +24,10 @@ export class AuthorsController {
     const author = await this.authorsService.getById(id);
     if (!author) throw new NotFoundException('Author not found');
     return author;
+  }
+
+  @Post('/')
+  create(@Body() authorData: CreateAuthorDTO) {
+    return this.authorsService.create(authorData);
   }
 }
