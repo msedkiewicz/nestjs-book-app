@@ -27,4 +27,20 @@ export class AuthorsService {
       throw error;
     }
   }
+
+  public async updateById(
+    id: Author['id'],
+    authorData: Omit<Author, 'id'>,
+  ): Promise<Author> {
+    try {
+      return await this.prismaService.author.update({
+        where: { id },
+        data: authorData,
+      });
+    } catch (error) {
+      if (error.code === 'P2002')
+        throw new ConflictException('Name is already taken');
+      throw error;
+    }
+  }
 }
