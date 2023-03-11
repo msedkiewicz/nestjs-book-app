@@ -9,4 +9,10 @@ export class AuthorsService {
   public getAll(): Promise<Author[]> {
     return this.prismaService.author.findMany();
   }
+
+  public getById(id: Author['id']): Promise<Author | null> {
+    return this.prismaService.author.findUnique({
+      where: { id },
+    });
+  }
 }

@@ -9,4 +9,10 @@ export class BooksService {
   public getAll(): Promise<Book[]> {
     return this.prismaService.book.findMany();
   }
+
+  public getById(id: Book['id']): Promise<Book | null> {
+    return this.prismaService.book.findUnique({
+      where: { id },
+    });
+  }
 }
