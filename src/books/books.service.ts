@@ -16,10 +16,12 @@ export class BooksService {
     });
   }
 
-  public async create(bookData: Omit<Book, 'id'>): Promise<Book> {
+  public create(
+    bookData: Omit<Book, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Book> {
     const { authorId, ...otherData } = bookData;
     try {
-      return await this.prismaService.book.create({
+      return this.prismaService.book.create({
         data: {
           ...otherData,
           author: {
